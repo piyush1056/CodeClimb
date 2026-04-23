@@ -1,248 +1,131 @@
-# 🚀 CodeClimb - Online Judge Platform  
+# 🧗‍♂️ CodeClimb | AI‑Ready Full‑Stack Judge & Scalable Execution Infrastructure  
 
-A comprehensive **LeetCode-style coding platform** built with the **MERN stack**, featuring real-time code execution, AI-powered assistance, and modern web technologies.  
-This project demonstrates full-stack development skills with advanced features like contest systems, video solutions, and intelligent problem-solving tools.
+> A Production-Ready high-performance, scalable full-stack application delivering a seamless competitive programming and algorithmic learning experience, featuring Secure Execution and AI-Driven Mentorship.
 
----
+CodeClimb isn't just another CRUD application—it’s an exercise in modern system architecture. Designed to bridge the gap between simple web apps and industrial coding judges, it combines a sandboxed multi-language execution engine with a structured AI tutor. Built with a focus on security bottlenecks, asynchronous scaling, and high-precision UX.
 
-## 🌟 Why I Built This  
+By combining a **React/Monaco-powered IDE** on the frontend with a **highly secure, distributed Node.js/Judge0 execution engine** on the backend, the goal was to create a platform that feels incredibly premium, handles untrusted code safely, and uses AI to actually teach rather than just give away answers.
 
-As a final-year computer science student passionate about competitive programming, I noticed that most coding platforms focus solely on problem-solving without showing the full technical implementation behind them. I wanted to bridge that gap by building a complete, production-ready platform that demonstrates real-world web development challenges.
-
-**CodeClimb** represents my journey through the entire software development lifecycle - from designing scalable architectures to implementing complex features like real-time code execution and AI integration. This project combines my love for algorithms with modern web technologies, showcasing both technical depth and user experience considerations.
+CodeClimb is engineered for scalability: asynchronous execution pipelines prevent overload, Redis‑backed session invalidation supports distributed deployments, and MongoDB aggregation ensures leaderboard and search remain performant even under heavy load.
 
 ---
 
-## 🎯 Project Goals  
+## 🏗️ Core System Architecture
 
-- **Demonstrate Full-Stack Proficiency** – Build a complete MERN application with proper authentication, database design, and API development  
+### 1. High-Precision Workspace & Editor Engine
+The frontend is built to mimic a professional desktop IDE directly within your browser.
+* **Monaco Editor Integration:** Powered by the core engine of VS Code (`@monaco-editor/react`), providing true syntax highlighting, IntelliSense-like auto-completion, and multi-language support (C++, Java, JS/TS).
+* **Fluid UI & Resizable Layouts:** Implemented a custom split-pane architecture (`react-split`) to let users balance their focus, paired with a stateful theme toggling system that ensures zero re-render jank when switching between dark and light modes.
+* **Unified State Management:** Driven by a modular Redux Toolkit (RTK) store. Execution states (Queued, Processing, Accepted) are handled independently so you can switch tabs or read the problem without interrupting a background submission.
 
-- **Solve Real Technical Challenges** – Implement complex features like secure code execution, video processing, and AI integration  
+### 2. Distributed Code Execution Pipeline
+The backend acts as a robust bridge to the **Judge0 API**, designed to handle untrusted user code with military precision.
+* **Asynchronous Polling & Batching:** Submissions are bundled and sent to Judge0 in batches against hidden test cases. The backend handles the polling delay mechanisms so the frontend doesn't overwhelm the execution server.
+* **Smart Error Mapping:** Dynamically parses Judge0 outputs into human-readable IDE formats (Time Limit Exceeded, Runtime Error, Compilation Error) with detailed diffs showing exactly where the code failed.
+* **Pre-Validation Architecture:** Admin routes strictly enforce that a problem's reference solution must pass all its own visible test cases via Judge0 *before* it can be published to the database. Zero broken problems.
 
-- **Create Learning Value** – Build something that could actually help other students practice coding interview questions  
+### 3. AI-Powered DSA Tutor Interface
+Integrated **Google Gemini 3 Flash** to act as a dedicated algorithmic teaching assistant, but with a twist.
+* **Strict JSON Enforcement:** The backend uses engineered system prompts to force Gemini to return structured JSON (`{"explanation", "approach", "code", "tips"}`). 
+* **JSON-to-UI Pipeline:** The frontend intercepts this payload and dynamically generates beautiful, isolated React components—Theory Cards, Logic Steps, and Syntax Blocks—ensuring a structured learning path that avoids "spoon-feeding" raw markdown.
 
-- **Showcase Modern Development Practices** – Implement proper error handling, rate limiting, security measures, and responsive design  
+### 4. Advanced Security & Access Control
+Built with a "trust nothing" approach to secure user data and platform health.
+* **Dual-Strategy Auth:** Supports both Bcrypt-hashed local authentication and Google OAuth 2.0.
+* **Stateless JWT + Stateful Invalidation:** Sessions are managed via JWTs stored in secure, HTTP-only cookies. A **Redis-backed token blocklist** ensures instant, secure logouts and immediate invalidation of compromised sessions.
+* **Aggressive Rate Limiting:** Custom sliding-window rate limiters tune access based on computational cost (e.g., 60s for AI chats, 10 submissions per minute) to prevent abuse.
 
----
-
-## ✨ Key Features  
-
-### 🔐 Secure Authentication System  
-- JWT-based authentication with Redis token blacklisting  
-- Role-based access control (User/Admin)  
-- Secure password hashing and validation 
-- Google OAuth integration for one-click sign-in
-- Dual authentication support (traditional + social login)
-
-### 💻 Advanced Code Execution Engine  
-- Multi-language support (C++, Java, Python, JavaScript)  
-- Integration with Judge0 API for reliable code evaluation  
-- Real-time test case validation with hidden test support  
-- Comprehensive submission tracking and performance metrics  
-
-### 🎯 Intelligent Problem Management  
-- 2000+ coding problems with difficulty categorization  
-- Tag-based filtering and company-wise organization  
-- Admin panel for problem creation and management  
-- Input validation and reference solution verification  
-
-### 🤖 AI-Powered Learning Assistant  
-- Google Gemini integration for contextual hints  
-- Smart doubt-solving with problem-specific guidance  
-- Multiple assistance modes (hints, code review, complete solutions)  
-
-### 🎥 Video Solutions System  
-- Cloudinary integration for scalable video storage  
-- Professional video player with quality controls  
-- Direct upload with secure signed requests  
-- Editorial content management  
-
-### 🚦 Enterprise-Grade Security  
-- Custom sliding window rate limiting using Redis  
-- Protection against DDoS and brute-force attacks  
-- Granular API rate limits for different operations  
+### 5. Gamification & Search Infrastructure
+* **Algorithmic Leaderboard & Streaks:** A highly optimized MongoDB aggregation pipeline calculates global ranks. Custom utility logic tracks daily coding streaks and handles dynamic scoring based on problem difficulty.
+* **Performance-First Search:** Problem discovery uses dynamic backend query parameters rather than heavy client-side filtering, protected by a **500ms debounced search mechanism** to prevent API spam.
 
 ---
 
-## 🛠️ Tech Stack  
+## 🛠️ The Tech Stack
 
-### Backend  
-- Runtime: Node.js with Express.js  
-- Database: MongoDB with Mongoose ODM  
-- Caching: Redis for rate limiting and session management  
-- Authentication: JWT with bcrypt encryption  
-- OAuth Integration: Google Auth Library for secure  token verification
-- Code Execution: Judge0 API integration  
-- AI Integration: Google Gemini API  
-- File Storage: Cloudinary for video management  
+### Frontend Client
+* **Framework:** React v19 (Vite)
+* **State Management:** Redux Toolkit (`@reduxjs/toolkit`)
+* **Styling:** Tailwind CSS v4, DaisyUI v5, Lucide React
+* **Editor/UI:** `@monaco-editor/react`, `react-split`
+* **Utilities:** Axios, React Hot Toast, Plyr React (Video Player)
 
-### Frontend  
-- Framework: React 18 with Vite  
-- Styling: Tailwind CSS + DaisyUI components  
-- State Management: Redux Toolkit  
-- Code Editor: Monaco Editor (VS Code engine)  
-- Routing: React Router with protected routes  
-- Video Player: Plyr React for enhanced playback  
-- OAuth Integration: @react-oauth/google for seamless sign-in
-- Notifications: React Hot Toast for user feedback
-
-### Development Tools  
-- Validation: Zod schema validation  
-- Form Handling: React Hook Form  
-- HTTP Client: Axios with interceptors  
-- Version Control: Git with feature branching  
+### Backend Execution Server
+* **Runtime & Framework:** Node.js, Express.js
+* **Database:** MongoDB (Mongoose ORM)
+* **Caching & Security:** Redis
+* **External APIs:** Judge0 (RapidAPI), Google GenAI (Gemini 3 Flash), Cloudinary
+* **Utilities:** JSON Web Tokens (JWT), Bcrypt, Validator.js
 
 ---
+
+## 🗄️ Database & Data Flow
+The MongoDB database is heavily indexed for read-heavy operations:
+* **User Model:** Tracks total points, global rank, arrays of solved/saved problems, and embedded subdocuments for streaks.
+* **Problem Model:** Stores markdown descriptions, constraints, company tags, start code for 5 languages, and hidden/visible test cases.
+* **Submission Model:** Logs every code attempt—recording exact code, memory usage, runtime, and points earned.
+
+---
+
+## ⚡ Performance & Engineering Flags
+If you are reviewing this code, here is what I hope you notice:
+* **Debounced Interactions:** Text searches and editor keystrokes are managed carefully to prevent unnecessary server load and re-renders.
+* **Code Splitting:** Heavy assets like Monaco Editor are lazy-loaded, keeping the initial bundle incredibly lightweight and the Time-to-Interactive (TTI) blazingly fast.
+* **Clean Separation of Concerns:** Both the frontend (`/pages`, `/components`, `/redux`) and backend (`/routes`, `/controllers`, `/models`) adhere to strict modular architecture.
+
+---
+
 ## 🗂️ Project Structure
 
-```
-CodeClimb/  
-├── backend/                 # Node.js/Express server  
-│   ├── src/  
-│   │   ├── controllers/     # Business logic  
-│   │   ├── models/          # Database schemas  
-│   │   ├── routes/          # API endpoints  
-│   │   ├── middleware/      # Custom middleware  
-│   │   └── utils/           # Helper functions  
-│   └── package.json  
-
-├── frontend/                # React application  
-│   ├── src/  
-│   │   ├── components/      # Reusable UI components  
-│   │   ├── pages/           # Route components  
-│   │   ├── store/           # Redux configuration  
-│   │   └── utils/           # Client utilities  
-│   └── package.json  
-
-├── docs/                    # Documentation & changelogs  
-│   ├── BACKEND_CHANGELOG.md  
-│   └── FRONTEND_CHANGELOG.md  
-
-└── README.md                # This file  
-
+```text
+codeclimb/
+├── frontend/               # React 19 Frontend (Vite)
+│   ├── src/components/     # Modular UI (Workspace, Admin, Shared primitives)
+│   ├── src/redux/          # RTK Slices (Auth, Workspace, Problem)
+│   └── src/pages/          # Route-level views (WorkspacePage, Leaderboard, etc.)
+└── backend/                # Express 5 Backend
+    ├── controllers/        # Domain logic (Auth, Problem, Submission,Profile)
+    ├── middleware/         # Security (RateLimiter, AuthGuard, AdminCheck)
+    ├── models/             # Mongoose Schemas (User, Problem,Submission Video)
+    └── utils/              # Logic helpers (Judge0, Gemini, Streaks) 
 ```
 
 ---
 
-## 🚀 Getting Started  
+## ⚙️ Local Setup & Installation
 
-### Prerequisites  
-- Node.js (v16+)  
-- MongoDB database  
-- Redis server  
-- Judge0 API access  
-- Cloudinary account  
-- Google Gemini API key  
-- - Google Cloud Console project with OAuth 2.0 credentials
+To run the full stack locally, you'll need three terminal windows: one for your Redis server, one for the backend, and one for the frontend.
 
----
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/codeclimb.git
+cd codeclimb
+```
 
-### Quick Setup  
+### 2. Backend Setup
+```bash
+cd backend
+npm install
 
-1. Clone the Repository  
-  git clone https://github.com/piyush1056/Leetcode.git
-  cd Leetcode
-
-2. Backend Setup
-  cd backend
-  npm install
-
-# Create .env file
-MONGODB_URI=your_mongodb_connection
-JWT_SECRET=your_jwt_secret
-REDIS_URL=your_redis_url
-JUDGE0_API_URL=your_judge0_endpoint
-CLOUDINARY_CLOUD_NAME=your_cloudinary_name
-GEMINI_API_KEY=your_gemini_key
-GOOGLE_CLIENT_ID=your_google_oauth_client_id
-
+# Create a .env file based on the backend instructions
+# You will need MongoDB, Redis, Judge0, Gemini, and Cloudinary credentials.
 npm run dev
+```
 
-3. Frontend Setup
-  cd ../frontend
-  npm install
+### 3. Frontend Setup
+```bash
+# Open a new terminal
+cd frontend
+npm install
 
-# Configure environment
-VITE_API_URL=http://localhost:3000
-VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
-
+# Create a .env file
+# VITE_API_BASE_URL=http://localhost:8000
+# VITE_GOOGLE_CLIENT_ID=your_oauth_client_id
 npm run dev
-
-4. Access the Application
-
-  - Frontend: http://localhost:5173
-  - Backend API: http://localhost:3000
+```
 
 ---
+## 📋 Development Changelog
+For a detailed log of implemented features, changes, and version history, please refer to the [Frontend/Backend Changelog](docs/Changelog).
 
-## 🔌 API Overview 
-
-### Backend RESTful Endpoints  
-
-- **Authentication** (`/user/*`) – Registration, login/logout,Google OAuth ,session checks  
-- **Problems** (`/problem/*`) – CRUD operations and user-specific queries  
-- **Submissions** (`/submission/*`) – Code execution, final submissions, history  
-- **AI Assistance** (`/ai/chat`) – Context-aware coding help  
-- **Video Management** (`/video/*`) – Upload signatures, metadata save, and deletion  
-
-
----
-
-## 🎯 Challenges Overcome  
-
-During development, I tackled several complex problems:  
-- **Rate Limiting:** Implemented custom sliding window algorithm with Redis for scalable request throttling  
-- **Code Security:** Safely run user code in Judge0’s isolated sandbox to prevent harmful or heavy operations on your server.
-- **Real-time Updates:** Built efficient WebSocket communication for live submission feedback  
-- **Video Management:** Created seamless upload experience with Cloudinary integration  
-- **State Management:** Architected clean Redux flow for complex authentication states  
-
----
-
-## 🔮 Roadmap  
-
-- Contest system with real-time leaderboards  
-- GitHub OAuth integration (Google OAuth ✅ complete)
-- Payment gateway for premium features  
-- Real-time chat and collaboration    
-- Advanced analytics dashboard  
-
----
-
-## 📊 Current Status  
-
-✅ Core backend infrastructure complete  
-✅ Frontend UI and navigation implemented  
-✅ Code execution engine operational  
-✅ AI assistance integrated  
-✅ Video solutions system functional 
-✅ Google OAuth integration complete 
-
-
-🚧 Contest features under development  
-
----
-
-## 🤝 Contributing  
-
-While this is primarily a personal project for learning, I welcome feedback and suggestions. Feel free to open issues or submit pull requests.  
-
----
-
-## 📝 License  
-
-MIT License – see LICENSE file for details.  
-
----
-
-## 👨‍💻 Developer  
-
-**Piyush – Final Year CS Student**  
-
-- GitHub: [@piyush1056](https://github.com/piyush1056)  
- 
-
-This project represents my journey in full-stack development, combining algorithmic problem-solving with modern web technologies.  
-It showcases my ability to build scalable, secure applications while maintaining focus on user experience and code quality.  
-
-
+*Built with an obsession for high-performance engineering, clean architecture, and exceptional user experiences.*
