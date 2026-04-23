@@ -39,6 +39,9 @@ Built with a "trust nothing" approach to secure user data and platform health.
 * **Algorithmic Leaderboard & Streaks:** A highly optimized MongoDB aggregation pipeline calculates global ranks. Custom utility logic tracks daily coding streaks and handles dynamic scoring based on problem difficulty.
 * **Performance-First Search:** Problem discovery uses dynamic backend query parameters rather than heavy client-side filtering, protected by a **500ms debounced search mechanism** to prevent API spam.
 
+### 6. Secure Asset Management (Video Solutions)
+* **Direct Cloudinary Uploads with Backend Signatures:** To provide rich video solutions without choking the Node.js main thread, the backend securely generates signed upload tokens. This allows the frontend to stream large video files directly to Cloudinary, completely bypassing the server and maintaining peak code execution performance.
+
 ---
 
 ## 🛠️ The Tech Stack
