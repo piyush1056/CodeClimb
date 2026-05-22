@@ -129,7 +129,7 @@ const register = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-            sameSite: 'none'
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
         });
 
         res.status(201).json({
@@ -200,7 +200,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            sameSite: 'none'// cross-site cookies for production, lax for development
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' // cross-site cookies for production, lax for development
         });
 
         res.status(200).json({
@@ -326,7 +326,7 @@ const logout = async (req, res) => {
         res.cookie('token', '', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             expires: new Date(0)
         });
 

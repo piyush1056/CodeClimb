@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axiosInstance from '../../../utils/axiosClient';
 import { Send, Bot, User, Sparkles, AlertTriangle, Terminal } from 'lucide-react';
+import { toast } from 'sonner';
 
 const AskAITab = ({ problem }) => {
     const [messages, setMessages] = useState([
@@ -39,7 +40,20 @@ const AskAITab = ({ problem }) => {
             ]);
 
         } catch (error) {
-            setMessages(prev => [...prev, { role: 'assistant', content: "Something went wrong. Please try again." }]);
+            const status = error.response?.status;
+            let errorMessage = "Something went wrong. Please try again.";
+            
+            if (status === 500 || status === 503) {
+                errorMessage = "The AI Tutor is currently helping a lot of students. Please try again in a few seconds!";
+                toast.error("The AI Tutor is currently helping a lot of students. Please try again in a few seconds!");
+            } else {
+                toast.error(error.response?.data?.message || "Failed to get response from AI Tutor.");
+            }
+
+            setMessages(prev => [
+                ...prev,
+                { role: 'assistant', content: errorMessage }
+            ]);
         } finally {
             setLoading(false);
         }

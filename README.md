@@ -24,15 +24,17 @@ The backend acts as a robust bridge to the **Judge0 API**, designed to handle un
 * **Smart Error Mapping:** Dynamically parses Judge0 outputs into human-readable IDE formats (Time Limit Exceeded, Runtime Error, Compilation Error) with detailed diffs showing exactly where the code failed.
 * **Pre-Validation Architecture:** Admin routes strictly enforce that a problem's reference solution must pass all its own visible test cases via Judge0 *before* it can be published to the database. Zero broken problems.
 
-### 3. AI-Powered DSA Tutor Interface
-Integrated **Google Gemini 3 Flash** to act as a dedicated algorithmic teaching assistant, but with a twist.
-* **Strict JSON Enforcement:** The backend uses engineered system prompts to force Gemini to return structured JSON (`{"explanation", "approach", "code", "tips"}`). 
+### 3. AI-Powered Agentic DSA Tutor Interface
+Integrated **Google Gemini** to act as a dedicated algorithmic teaching assistant, but with an intelligent, autonomous twist.
+* **Self-Verifying Agent Loop:** Instead of relying on standard text-completion guesses, the interface is powered by an AI Agent that actively runs user code through the platform's Judge0 execution sandbox to diagnose bugs using live compiler and runtime logs before talking to the student.
+* **Strict JSON Schema Contracts:** The backend leverages strict system instructions and native API response configurations to guarantee that Gemini's final thoughts are packed into an exact JSON structure (`{"explanation", "approach", "code", "tips"}`). This completely eliminates raw markdown noise and powers highly reactive, isolated workspace UI layout panels.
 * **JSON-to-UI Pipeline:** The frontend intercepts this payload and dynamically generates beautiful, isolated React components—Theory Cards, Logic Steps, and Syntax Blocks—ensuring a structured learning path that avoids "spoon-feeding" raw markdown.
 
 ### 4. Advanced Security & Access Control
 Built with a "trust nothing" approach to secure user data and platform health.
 * **Dual-Strategy Auth:** Supports both Bcrypt-hashed local authentication and Google OAuth 2.0.
-* **Stateless JWT + Stateful Invalidation:** Sessions are managed via JWTs stored in secure, HTTP-only cookies. A **Redis-backed token blocklist** ensures instant, secure logouts and immediate invalidation of compromised sessions.
+* **Stateless JWT + Stateful Invalidation:** Sessions are managed via JWTs stored in secure, HTTP-only cookies. A **Redis-backed token blocklist** ensures instant, secure 
+logouts and immediate invalidation of compromised sessions.
 * **Aggressive Rate Limiting:** Custom sliding-window rate limiters tune access based on computational cost (e.g., 60s for AI chats, 10 submissions per minute) to prevent abuse.
 
 ### 5. Gamification & Search Infrastructure
