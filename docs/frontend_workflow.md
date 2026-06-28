@@ -1,6 +1,6 @@
 # CodeClimb Frontend Workflow: Technical Reference Manual
 
-Welcome! This document serves as a comprehensive, plain-English technical guide to the CodeClimb frontend. It is designed to help you prepare for frontend architecture interviews, system design walkthroughs, and UI/UX engineering discussions. It breaks down folder layouts, state management flows, component workflows, and front-end performance optimizations.
+A reference manual describing the folder structure, Redux slices, core interface flows, and performance optimizations used in CodeClimb.
 
 ---
 
