@@ -1,6 +1,6 @@
 # CodeClimb Backend Workflow: Technical Reference Manual
 
-Welcome! This document serves as a comprehensive, plain-English technical guide to the CodeClimb backend. It is designed to act as a review guide for system design walkthroughs, architecture discussions, and coding interviews. It breaks down the internal directory structure, end-to-end user request flows, database models, and performance optimizations.
+This document provides a technical overview of the backend architecture, request workflows, database models, and performance optimizations implemented in the project.
 
 ---
 
